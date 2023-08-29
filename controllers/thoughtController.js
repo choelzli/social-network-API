@@ -74,7 +74,7 @@ module.exports = {
     async createReaction(req, res) {
         try {
             const reaction = {
-                reactionText: req.body.reactionText,
+                reactionBody: req.body.reactionText,
                 username: req.body.username
             };
 
