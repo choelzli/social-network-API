@@ -1,4 +1,5 @@
 const { User, Thought } = require('../models');
+const { findOneAndUpdate } = require('../models/User');
 
 module.exports = {
     // Get all users
@@ -17,6 +18,7 @@ module.exports = {
             const user = await User.findOne({ _id:req.params.userId })
                 .select('-__v')
                 .populate('thoughts')
+                .populate('friends')
 
             if (!user) {
                 return res.status(404).json({ message: 'No user with that ID' });
@@ -73,4 +75,29 @@ module.exports = {
             res.status(500).json(err);
         }
     },
+
+    async addFriend(req, res) {
+        try{
+            const user = await findOneAndUpdate(
+                {_id: req.params.userId},
+                {$addToSet: {friends: req.params.friendId}},
+                {new: true}
+            );
+            res.json(user);
+        } catch (err) {
+            res.status(500).json(err);
+        }
+    },
+
+    async deleteFriend(req, res) {
+        try{
+            const deletedFriend = await User.findOneAndUpdate(
+                { $pull: { friends: req.params.friendId }},
+                { new: true }
+            );
+            res.json({message: "Friend deleted!"});
+        } catch (err) {
+            res.status(500).json(err);
+        }
+    }
 };
