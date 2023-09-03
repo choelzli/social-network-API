@@ -54,13 +54,16 @@ const getRandomName = () =>
 // Attribute random reactions to random users
 const getRandomReactions = () => {
     let results = [];
-    const ranNum = Math.floor(Math.random() * reactionsDb.length);
+    const ranNum = Math.floor(Math.random() * 9)
     for (let i = 0; i < ranNum; i++) {
+        let ranNumDb = Math.floor(Math.random() * reactionsDb.length);
+        let ranNumName = Math.floor(Math.random() * namesDb.length);
         results.push({
-            reactionBody: getRandomArrItem(reactionsDb),
-            username: getRandomName(),
+            reactionBody: reactionsDb[ranNumDb],
+            username: namesDb[ranNumName],
         });
     }
+    return results;
 };
 
 // Export functions for use in seed.js
