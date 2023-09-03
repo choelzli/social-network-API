@@ -37,8 +37,6 @@ connection.once('open', async () => {
         await randomUser.save();
     }
 
-    console.table(users);
-
     console.info('Seeding complete! 🌱');
     process.exit(0);
 });
